@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "api/v1/user")
@@ -16,11 +17,15 @@ public class UserController {
     @PostMapping
     public ResponseEntity<String> createNewUser(@RequestBody User user) {
         boolean isCreate = userService.createNewUser(user);
-        System.out.println("post");
         if (isCreate) {
             return new ResponseEntity<>("success", HttpStatus.OK);
         }
         return new ResponseEntity<>("Email already use.", HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping(path = "{userId}")
+    public ResponseEntity<User> getUserById(@PathVariable("userId") Integer userId) {
+        return userService.getUserById(userId);
     }
 
 }
