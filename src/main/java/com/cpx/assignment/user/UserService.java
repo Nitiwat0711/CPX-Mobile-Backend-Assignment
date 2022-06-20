@@ -22,11 +22,11 @@ public class UserService {
 
     }
 
-    public ResponseEntity<User> getUserById(Integer userId) {
+    public User getUserById(Integer userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
 
         if (optionalUser.isPresent()) {
-            return  ResponseEntity.ok(optionalUser.get());
+            return  optionalUser.get();
         }
         throw new IllegalStateException("user id " + userId + " does not exists.");
 
