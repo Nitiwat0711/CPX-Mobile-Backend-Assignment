@@ -9,6 +9,15 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    public boolean createNewUser(User user) {
+        System.out.println(user.toString());
+        Optional<User> userOptional = userRepository.findByEmail(user.getEmail());
+        if (userOptional.isEmpty()) {
+            userRepository.save(user);
+            return true;
+        }
+        return false;
 
+    }
 
 }
