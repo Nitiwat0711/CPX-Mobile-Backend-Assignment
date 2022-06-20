@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:alpine
+    restart: always
+    environment:
+      POSTGRES_DB: 'svc_backend_team'
+      POSTGRES_PASSWORD: "backendteam"
+    ports:
+      - '5432:5432'
+    volumes:
+      - db_data:/var/lib/postgresql/data
+volumes:
+  db_data: {}
