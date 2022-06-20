@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -30,5 +31,10 @@ public class UserService {
         }
         throw new IllegalStateException("user id " + userId + " does not exists.");
 
+    }
+
+    public List<User> getAllUser() {
+        List<User> users = userRepository.findAll();
+        return users;
     }
 }

@@ -29,4 +29,10 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    @GetMapping
+    public ResponseEntity<List<User>> getAllUser() {
+        List<User> users = userService.getAllUser();
+        return  ResponseEntity.ok(users);
+    }
+
 }
