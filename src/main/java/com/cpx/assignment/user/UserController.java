@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -35,4 +36,30 @@ public class UserController {
         return  ResponseEntity.ok(users);
     }
 
+    @PutMapping(path = "{userId}")
+    public ResponseEntity<?> updateAllDataById(@RequestBody Map<String, Object> requestBody, @PathVariable("userId") Integer userId) {
+        if (
+                requestBody.get("firstName") != null &&
+                requestBody.get("lastName") != null &&
+                requestBody.get("middleName") != null &&
+                        requestBody.get("email") != null &&
+                        requestBody.get("dob") != null &&
+                        requestBody.get("url") != null &&
+                        requestBody.get("bio") != null
+        ) {
+            User updatedUser = userService.updateAllDataById(
+                    userId,
+                    requestBody.get("firstName").toString(),
+                    requestBody.get("lastName").toString(),
+                    requestBody.get("middleName").toString(),
+                    requestBody.get("email").toString(),
+                    LocalDate.parse(requestBody.get("dob").toString()),
+                    requestBody.get("url").toString(),
+                    requestBody.get("bio").toString()
+            );
+
+            return new ResponseEntity<User>(updatedUser, HttpStatus.OK);
+        }
+        return new ResponseEntity<String>("Invalid request body!", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
