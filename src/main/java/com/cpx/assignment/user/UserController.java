@@ -62,4 +62,12 @@ public class UserController {
         }
         return new ResponseEntity<String>("Invalid request body!", HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @PatchMapping(path = "{userId}")
+    public ResponseEntity<?> updateById(@RequestBody User user, @PathVariable("userId") Integer userId) {
+        User updatedUser = userService.updateById(userId, user);
+
+        return  new ResponseEntity<User>(updatedUser, HttpStatus.OK);
+
+    }
 }
