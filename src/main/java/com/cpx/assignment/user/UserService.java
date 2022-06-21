@@ -122,4 +122,15 @@ public class UserService {
 
         throw  new IllegalStateException("user id " + userId + " does not exists.");
     }
+
+    public boolean deleteById(Integer userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+
+        if (optionalUser.isPresent()) {
+            userRepository.deleteById(userId);
+            return true;
+        }
+
+        throw new IllegalStateException("user id " + userId + " does not exists.");
+    }
 }

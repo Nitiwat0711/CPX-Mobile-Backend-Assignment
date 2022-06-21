@@ -68,6 +68,15 @@ public class UserController {
         User updatedUser = userService.updateById(userId, user);
 
         return  new ResponseEntity<User>(updatedUser, HttpStatus.OK);
+    }
 
+    @DeleteMapping(path = "{userId}")
+    public ResponseEntity<String> deleteById(@PathVariable("userId") Integer userId) {
+        boolean success = userService.deleteById(userId);
+
+        if (success == true) {
+            return new ResponseEntity<>("success", HttpStatus.OK);
+        }
+        return  new ResponseEntity<>("Something went wrong!", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
