@@ -20,7 +20,27 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<?> createNewUser(@RequestBody User user) {
-        List requiredList = new ArrayList<>();
+        List<String> requiredList = new ArrayList<>();
+
+        if (user.getFirstName() == null) {
+            requiredList.add("firstName");
+        }
+
+        if (user.getLastName() == null) {
+            requiredList.add("lastName");
+        }
+
+        if (user.getEmail() == null) {
+            requiredList.add("email");
+        }
+
+        if (user.getDob() == null) {
+            requiredList.add("dob");
+        }
+
+        if (!requiredList.isEmpty()) {
+            return new ResponseEntity<String>("request body required " + String.join(", ", requiredList) , HttpStatus.UNPROCESSABLE_ENTITY);
+        }
 
         boolean isCreate = userService.createNewUser(user);
         if (isCreate) {
@@ -43,30 +63,49 @@ public class UserController {
     }
 
     @PutMapping(path = "{userId}")
-    public ResponseEntity<?> updateAllDataById(@RequestBody Map<String, Object> requestBody, @PathVariable("userId") Integer userId) {
-        if (
-                requestBody.get("firstName") != null &&
-                requestBody.get("lastName") != null &&
-                requestBody.get("middleName") != null &&
-                        requestBody.get("email") != null &&
-                        requestBody.get("dob") != null &&
-                        requestBody.get("url") != null &&
-                        requestBody.get("bio") != null
-        ) {
-            User updatedUser = userService.updateAllDataById(
-                    userId,
-                    requestBody.get("firstName").toString(),
-                    requestBody.get("lastName").toString(),
-                    requestBody.get("middleName").toString(),
-                    requestBody.get("email").toString(),
-                    LocalDate.parse(requestBody.get("dob").toString()),
-                    requestBody.get("url").toString(),
-                    requestBody.get("bio").toString()
-            );
+    public ResponseEntity<?> updateAllDataById(@RequestBody User user, @PathVariable("userId") Integer userId) {
+        List<String> requiredList = new ArrayList<>();
 
-            return new ResponseEntity<User>(updatedUser, HttpStatus.OK);
+        if (user.getFirstName() == null) {
+            requiredList.add("firstName");
         }
-        return new ResponseEntity<String>("Invalid request body!", HttpStatus.UNPROCESSABLE_ENTITY);
+
+        if (user.getLastName() == null) {
+            requiredList.add("lastName");
+        }
+
+        if (user.getEmail() == null) {
+            requiredList.add("email");
+        }
+
+        if (user.getDob() == null) {
+            requiredList.add("dob");
+        }
+
+        if (user.getUrl() == null) {
+            requiredList.add("url");
+        }
+
+        if (user.getBio() == null) {
+            requiredList.add("bio");
+        }
+
+        if (!requiredList.isEmpty()) {
+            return new ResponseEntity<String>("request body required " + String.join(", ", requiredList) , HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+
+        User updatedUser = userService.updateAllDataById(
+                userId,
+                user.getFirstName(),
+                user.getLastName(),
+                user.getMiddleName(),
+                user.getEmail(),
+                user.getDob(),
+                user.getUrl(),
+                user.getBio()
+        );
+
+        return new ResponseEntity<User>(updatedUser, HttpStatus.OK);
     }
 
     @PatchMapping(path = "{userId}")
