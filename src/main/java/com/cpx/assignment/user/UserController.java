@@ -3,6 +3,7 @@ package com.cpx.assignment.user;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -14,14 +15,16 @@ import java.util.Map;
 @AllArgsConstructor
 public class UserController {
     private  final UserService userService;
+    private KafkaTemplate<String,User> kafkaTemplate;
 
     @PostMapping
-    public ResponseEntity<String> createNewUser(@RequestBody User user) {
+    public ResponseEntity<?> createNewUser(@RequestBody User user) {
         boolean isCreate = userService.createNewUser(user);
         if (isCreate) {
-            return new ResponseEntity<>("success", HttpStatus.OK);
+            kafkaTemplate.send("createNewUser", user);
+            return new ResponseEntity<User>(user, HttpStatus.OK);
         }
-        return new ResponseEntity<>("Email already use.", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<String>("Email already use.", HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping(path = "{userId}")
