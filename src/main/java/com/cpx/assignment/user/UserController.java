@@ -7,6 +7,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,12 +20,14 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<?> createNewUser(@RequestBody User user) {
+        List requiredList = new ArrayList<>();
+
         boolean isCreate = userService.createNewUser(user);
         if (isCreate) {
             kafkaTemplate.send("createNewUser", user);
             return new ResponseEntity<User>(user, HttpStatus.OK);
         }
-        return new ResponseEntity<String>("Email already use.", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<String>("Email already use.", HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @GetMapping(path = "{userId}")
@@ -63,13 +66,18 @@ public class UserController {
 
             return new ResponseEntity<User>(updatedUser, HttpStatus.OK);
         }
-        return new ResponseEntity<String>("Invalid request body!", HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<String>("Invalid request body!", HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @PatchMapping(path = "{userId}")
     public ResponseEntity<?> updateById(@RequestBody User user, @PathVariable("userId") Integer userId) {
         User updatedUser = userService.updateById(userId, user);
-
+        if (
+                user.getFirstName() == null && user.getMiddleName() == null && user.getLastName() == null &&
+                        user.getEmail() == null && user.getDob() == null && user.getUrl() == null && user.getBio() == null
+        ) {
+            return  new ResponseEntity<String>("Invalid request body!", HttpStatus.UNPROCESSABLE_ENTITY);
+        }
         return  new ResponseEntity<User>(updatedUser, HttpStatus.OK);
     }
 
