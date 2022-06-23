@@ -127,6 +127,6 @@ public class UserController {
         if (success == true) {
             return new ResponseEntity<>("success", HttpStatus.OK);
         }
-        return  new ResponseEntity<>("Something went wrong!", HttpStatus.INTERNAL_SERVER_ERROR);
+        return  new ResponseEntity<>("Something went wrong!", HttpStatus.UNPROCESSABLE_ENTITY);
     }
 }
