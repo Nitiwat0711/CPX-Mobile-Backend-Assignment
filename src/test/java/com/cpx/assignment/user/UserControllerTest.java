@@ -45,7 +45,7 @@ public class UserControllerTest {
     UserController userController;
 
     @Test
-    public void createUserSuccess() {
+    public void testCreateUserSuccess() {
         when(kafkaTemplate.send("createNewUser", testUser)).thenReturn(Mockito.any());
         when(userService.createNewUser(testUser)).thenReturn(true);
         ResponseEntity<?> responseEntity = userController.createNewUser(testUser);
@@ -57,7 +57,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void createUserButEmailAlreadyUse() {
+    public void testCreateUserButEmailAlreadyUse() {
         when(userService.createNewUser(testUser)).thenReturn(false);
         ResponseEntity<?> responseEntity = userController.createNewUser(testUser);
 
@@ -67,21 +67,21 @@ public class UserControllerTest {
     }
 
     @Test
-    public void getUserByIdSuccess() {
+    public void testGetUserByIdSuccess() {
         when(userService.getUserById(Mockito.anyInt())).thenReturn(testUser);
         ResponseEntity<?> responseEntity = userController.getUserById(Mockito.anyInt());
         assertEquals(ResponseEntity.ok(testUser), responseEntity);
     }
 
     @Test
-    public void getAllUserSuccess() {
+    public void testGetAllUserSuccess() {
         when(userService.getAllUser()).thenReturn(users);
         ResponseEntity<List<User>> responseEntity = userController.getAllUser();
         assertEquals(ResponseEntity.ok(users), responseEntity);
     }
 
     @Test
-    public void updateAllUserDataByIdSuccess() {
+    public void testUpdateAllUserDataByIdSuccess() {
         User updateUser = new User(1, "Nitiwat", null, "Apaikawee", "nitiwat.apaikawee@scb.co.th",
                 LocalDate.parse("1999-11-07"), "nitiwat0711.github.io", "Hi!");
         when(userService.updateAllDataById(updateUser.getId(), updateUser.getFirstName(), updateUser.getLastName(), updateUser.getMiddleName(),
@@ -91,14 +91,14 @@ public class UserControllerTest {
     }
 
     @Test
-    public void updateAllUserDataByIdRequired() {
+    public void testUpdateAllUserDataByIdRequired() {
         User updateUser = new User();
         ResponseEntity responseEntity = userController.updateAllDataById(updateUser, 1);
         assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, responseEntity.getStatusCode());
     }
 
     @Test
-    public void updateUserDataByIdSuccess() {
+    public void testUpdateUserDataByIdSuccess() {
         User updateUser = new User(1, "Nitiwat", null, "Apaikawee", "nitiwat.apaikawee@scb.co.th",
                 LocalDate.parse("1999-11-07"), null, null);
         when(userService.updateById(1, updateUser)).thenReturn(updateUser);
@@ -107,21 +107,21 @@ public class UserControllerTest {
     }
 
     @Test
-    public void updateUserDataByIdRequired() {
+    public void testUpdateUserDataByIdRequired() {
         User updateUser = new User();
         ResponseEntity responseEntity = userController.updateById(updateUser, 1);
         assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, responseEntity.getStatusCode());
     }
 
     @Test
-    public void deleteUserByIdSuccess() {
+    public void testDeleteUserByIdSuccess() {
         when(userService.deleteById(Mockito.anyInt())).thenReturn(true);
         ResponseEntity responseEntity = userController.deleteById(Mockito.anyInt());
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     @Test
-    public void deleteUserByIdNotExists() {
+    public void testDeleteUserByIdNotExists() {
         when(userService.deleteById(Mockito.anyInt())).thenReturn(false);
         ResponseEntity responseEntity = userController.deleteById(Mockito.anyInt());
         assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, responseEntity.getStatusCode());

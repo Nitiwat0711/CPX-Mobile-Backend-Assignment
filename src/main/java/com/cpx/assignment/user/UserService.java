@@ -26,7 +26,7 @@ public class UserService {
                 return true;
             }
             return false;
-        } catch (Exception exception) {
+        } catch (JDBCConnectionException exception) {
             throw new IllegalStateException("Can't connect to database.");
         }
 
@@ -41,7 +41,7 @@ public class UserService {
                 return  optionalUser.get();
             }
             throw new IllegalStateException("user id " + userId + " does not exists.");
-        } catch (Exception exception) {
+        } catch (JDBCConnectionException exception) {
             throw new IllegalStateException("Can't connect to database.");
         }
 
@@ -52,7 +52,7 @@ public class UserService {
         try {
             List<User> users = userRepository.findAllByOrderByIdAsc();
             return users;
-        } catch (Exception exception) {
+        } catch (JDBCConnectionException exception) {
             throw new IllegalStateException("Can't connect to database.");
         }
 
@@ -78,7 +78,8 @@ public class UserService {
             }
 
             throw  new IllegalStateException("user id " + userId + " does not exists.");
-        } catch (Exception exception) {
+        }
+         catch (JDBCConnectionException exception) {
             throw new IllegalStateException("Can't connect to database.");
         }
 
@@ -145,7 +146,7 @@ public class UserService {
             }
 
             throw  new IllegalStateException("user id " + userId + " does not exists.");
-        } catch (Exception exception) {
+        } catch (JDBCConnectionException exception) {
             throw new IllegalStateException("Can't connect to database.");
         }
     }
@@ -160,7 +161,7 @@ public class UserService {
             }
 
             throw new IllegalStateException("user id " + userId + " does not exists.");
-        } catch (Exception exception) {
+        } catch (JDBCConnectionException exception) {
             throw new IllegalStateException("Can't connect to database.");
         }
     }
