@@ -2,15 +2,9 @@ package com.cpx.assignment.user;
 
 import lombok.AllArgsConstructor;
 import org.hibernate.exception.JDBCConnectionException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.net.ConnectException;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
