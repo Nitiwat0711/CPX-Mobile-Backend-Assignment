@@ -84,8 +84,7 @@ public class UserControllerTest {
     public void testUpdateAllUserDataByIdSuccess() {
         User updateUser = new User(1, "Nitiwat", null, "Apaikawee", "nitiwat.apaikawee@scb.co.th",
                 LocalDate.parse("1999-11-07"), "nitiwat0711.github.io", "Hi!");
-        when(userService.updateAllDataById(updateUser.getId(), updateUser.getFirstName(), updateUser.getLastName(), updateUser.getMiddleName(),
-                updateUser.getEmail(), updateUser.getDob(), updateUser.getUrl(), updateUser.getBio())).thenReturn(updateUser);
+        when(userService.updateAllDataById(updateUser.getId(), updateUser)).thenReturn(updateUser);
         ResponseEntity responseEntity = userController.updateAllDataById(updateUser, 1);
         assertEquals(ResponseEntity.ok(updateUser), responseEntity);
     }

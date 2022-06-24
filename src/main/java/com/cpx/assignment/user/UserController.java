@@ -96,13 +96,7 @@ public class UserController {
 
         User updatedUser = userService.updateAllDataById(
                 userId,
-                user.getFirstName(),
-                user.getLastName(),
-                user.getMiddleName(),
-                user.getEmail(),
-                user.getDob(),
-                user.getUrl(),
-                user.getBio()
+                user
         );
 
         return new ResponseEntity<User>(updatedUser, HttpStatus.OK);

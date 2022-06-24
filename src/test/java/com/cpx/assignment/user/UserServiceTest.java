@@ -114,8 +114,7 @@ public class UserServiceTest {
 
         when(userRepository.findById(1)).thenReturn(Optional.of(testUserBeforeUpdated));
         when(userRepository.save(testUser)).thenReturn(testUser);
-        User updateUser = userService.updateAllDataById(1,testUser.getFirstName(), testUser.getLastName(), testUser.getMiddleName(),
-                testUser.getEmail(), testUser.getDob(), testUser.getUrl(), testUser.getBio());
+        User updateUser = userService.updateAllDataById(1,testUser);
         assertEquals(testUser, updateUser);
     }
 
@@ -123,8 +122,7 @@ public class UserServiceTest {
     public void testUpdateAllDataByIdButNotExists () {
         when(userRepository.findById(1)).thenReturn(Optional.empty());
         try {
-            userService.updateAllDataById(testUser.getId(), testUser.getFirstName(), testUser.getLastName(), testUser.getMiddleName(),
-                    testUser.getEmail(), testUser.getDob(), testUser.getUrl(), testUser.getBio());
+            userService.updateAllDataById(testUser.getId(), testUser);
         } catch (Exception e) {
             assertEquals("user id 1 does not exists.", e.getMessage());
         }
@@ -134,8 +132,7 @@ public class UserServiceTest {
     public void testUpdateAllDataByIdButNotConnectToDB () {
         when(userRepository.findById(1)).thenThrow(JDBCConnectionException.class);
         try {
-            userService.updateAllDataById(testUser.getId(), testUser.getFirstName(), testUser.getLastName(), testUser.getMiddleName(),
-                    testUser.getEmail(), testUser.getDob(), testUser.getUrl(), testUser.getBio());
+            userService.updateAllDataById(1, testUser);
         } catch (Exception e) {
             assertEquals("Can't connect to database.", e.getMessage());
         }

@@ -58,20 +58,20 @@ public class UserService {
 
     }
 
-    public User updateAllDataById(Integer userId, String firstName, String lastName, String middleName, String email, LocalDate dob, String url, String bio) {
+    public User updateAllDataById(Integer userId, User updateUser) {
         try {
             Optional<User> optionalUser = userRepository.findById(userId);
 
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
 
-                user.setFirstName(firstName);
-                user.setLastName(lastName);
-                user.setMiddleName(middleName);
-                user.setEmail(email);
-                user.setDob(dob);
-                user.setUrl(url);
-                user.setBio(bio);
+                user.setFirstName(updateUser.getFirstName());
+                user.setLastName(updateUser.getLastName());
+                user.setMiddleName(updateUser.getMiddleName());
+                user.setEmail(updateUser.getEmail());
+                user.setDob(updateUser.getDob());
+                user.setUrl(updateUser.getUrl());
+                user.setBio(updateUser.getBio());
 
                 User updatedUser = userRepository.save(user);
                 return updatedUser;
