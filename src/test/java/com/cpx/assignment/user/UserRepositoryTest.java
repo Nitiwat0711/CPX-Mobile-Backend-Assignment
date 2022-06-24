@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -73,9 +74,9 @@ public class UserRepositoryTest {
 
     @Test
     public void testDeleteByIdSuccess() {
-        doNothing().when(userRepository).deleteById(1);
-        userRepository.deleteById(1);
-        verify(userRepository, times(1)).deleteById(1);
+        doNothing().when(userRepository).deleteById(Mockito.anyInt());
+        userRepository.deleteById(Mockito.anyInt());
+        verify(userRepository, times(1)).deleteById(Mockito.anyInt());
     }
 
 
